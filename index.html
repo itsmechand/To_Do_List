@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled To-do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        button {
+            margin: 0 4px;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #add_todo {
+            display: block;
+            margin: 20px auto;
+            background-color: #3498db;
+            color: white;
+        }
+
+        #add_todo:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #ffffff;
+            padding: 12px 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li span {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .complete-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .complete-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>To-do List</h1>
+    <button id="add_todo" onclick="handleInput()">Add Todo</button>
+    <ul id="list"></ul>
+
+    <script>
+        function handleInput() {
+            let list = document.getElementById("list");
+            let todo_task = prompt("Enter a todo item:");
+            todo_task = todo_task.trim();
+            if (todo_task !== "") {
+                let todo_item = document.createElement("li");
+
+                let span = document.createElement("span");
+                span.innerText = todo_task;
+
+                let complete_button = document.createElement("button");
+                complete_button.innerText = "Complete";
+                complete_button.className = "complete-btn";
+                complete_button.addEventListener("click", () => {
+                    span.style.textDecoration = "line-through";
+                    span.style.color = "green";
+                });
+
+                let edit_button = document.createElement("button");
+                edit_button.innerText = "Edit";
+                edit_button.className = "edit-btn";
+                edit_button.addEventListener("click", () => {
+                    let updated = prompt("Edit your todo:", span.innerText);
+                    if (updated !== null) {
+                        span.innerText = updated.trim();
+                    }
+                });
+
+                let delete_button = document.createElement("button");
+                delete_button.innerText = "Delete";
+                delete_button.className = "delete-btn";
+                delete_button.addEventListener("click", () => {
+                    list.removeChild(todo_item);
+                });
+
+                todo_item.append(span, complete_button, edit_button, delete_button);
+                list.appendChild(todo_item);
+            }
+        }
+    </script>
+</body>
+
+</html>
