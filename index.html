@@ -2,36 +2,53 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled To-do List</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive To-do List</title>
     <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
         body {
+            height: 100%;
             font-family: Arial, sans-serif;
-            padding: 30px;
+        }
+
+        body {
             background-color: #f4f4f4;
             color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
         }
 
         h1 {
             text-align: center;
             color: #2c3e50;
-        }
-
-        button {
-            margin: 0 4px;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         #add_todo {
             display: block;
-            margin: 20px auto;
+            margin: 0 auto 20px auto;
             background-color: #3498db;
             color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         #add_todo:hover {
@@ -39,26 +56,34 @@
         }
 
         ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
-            max-width: 500px;
-            margin: 0 auto;
         }
 
         li {
-            background-color: #ffffff;
-            padding: 12px 10px;
-            margin-bottom: 10px;
+            background-color: #fff;
+            padding: 12px;
+            margin-bottom: 12px;
             border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
         }
 
         li span {
-            flex-grow: 1;
-            margin-right: 10px;
+            flex: 1 1 100%;
+            margin-bottom: 10px;
+        }
+
+        li button {
+            margin: 4px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         .complete-btn {
@@ -87,58 +112,82 @@
         .delete-btn:hover {
             background-color: #c0392b;
         }
+
+        footer {
+            text-align: center;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 500px) {
+            li {
+                flex-wrap: nowrap;
+            }
+
+            li span {
+                flex: 1;
+                margin: 0 10px 0 0;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <h1>To-do List</h1>
-    <button id="add_todo" onclick="handleInput()">Add Todo</button>
-    <ul id="list"></ul>
+    <main>
+        <h1>To-do List</h1>
+        <button id="add_todo" onclick="handleInput()">Add Todo</button>
+        <ul id="list"></ul>
+    </main>
+
+    <footer>
+        <p>&copy; Made by Chandra Sekhar</p>
+    </footer>
 
     <script>
         function handleInput() {
-            let list = document.getElementById("list");
+            const list = document.getElementById("list");
             let todo_task = prompt("Enter a todo item:");
             todo_task = todo_task.trim();
-            if (todo_task !== "") {
-                let todo_item = document.createElement("li");
 
-                let span = document.createElement("span");
+            if (todo_task !== "") {
+                const todo_item = document.createElement("li");
+
+                const span = document.createElement("span");
                 span.innerText = todo_task;
 
-                let complete_button = document.createElement("button");
+                const complete_button = document.createElement("button");
                 complete_button.innerText = "Complete";
                 complete_button.className = "complete-btn";
-                complete_button.addEventListener("click", () => {
+                complete_button.onclick = () => {
                     span.style.textDecoration = "line-through";
                     span.style.color = "green";
-                });
+                };
 
-                let edit_button = document.createElement("button");
+                const edit_button = document.createElement("button");
                 edit_button.innerText = "Edit";
                 edit_button.className = "edit-btn";
-                edit_button.addEventListener("click", () => {
-                    let updated = prompt("Edit your todo:", span.innerText);
+                edit_button.onclick = () => {
+                    const updated = prompt("Edit your todo:", span.innerText);
                     if (updated !== null) {
                         span.innerText = updated.trim();
                     }
-                });
+                };
 
-                let delete_button = document.createElement("button");
+                const delete_button = document.createElement("button");
                 delete_button.innerText = "Delete";
                 delete_button.className = "delete-btn";
-                delete_button.addEventListener("click", () => {
+                delete_button.onclick = () => {
                     list.removeChild(todo_item);
-                });
+                };
 
                 todo_item.append(span, complete_button, edit_button, delete_button);
                 list.appendChild(todo_item);
             }
         }
     </script>
-    <footer>
-        <p>&copy; Made by Chandra Sekhar</p>
-    </footer>
 </body>
 
 </html>
